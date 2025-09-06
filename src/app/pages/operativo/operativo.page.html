@@ -1,0 +1,43 @@
+<ion-content class="operativo-content" [fullscreen]="true">
+  <div class="wrap">
+    <ion-button class="back-button" fill="clear" (click)="goBack()">
+      <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+
+    <div class="middle">
+      <div class="icon-container">
+        <img src="../../../assets/images/3D_Inicio_OP 2.png" alt="Icono Operativo" />
+      </div>
+
+      <h1 class="title">Operativo</h1>
+
+      <div class="input-container">
+        <ion-item lines="none" class="custom-input">
+          <span class="input-icon-circle">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </span>
+          <ion-select [(ngModel)]="tipoDoc" placeholder="Tipo de Documento" interface="popover">
+            <ion-select-option value="cc">Cédula de ciudadanía</ion-select-option>
+            <ion-select-option value="ce">Cédula de extranjería</ion-select-option>
+            <ion-select-option value="ti">Tarjeta de identidad</ion-select-option>
+            <ion-select-option value="pp">Pasaporte</ion-select-option>
+          </ion-select>
+          <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+        </ion-item>
+      </div>
+
+      <div class="input-container">
+        <ion-item lines="none" class="custom-input">
+          <span class="input-icon-circle hash">#</span>
+          <ion-input [(ngModel)]="numeroDoc" placeholder="Número de Documento"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-button class="access-button" fill="clear" (click)="acceder()">Acceder</ion-button>
+
+      <div class="hint">
+        ¿Tienes un Código? <a (click)="unirse()">Unirse</a>
+      </div>
+    </div>
+  </div>
+</ion-content>

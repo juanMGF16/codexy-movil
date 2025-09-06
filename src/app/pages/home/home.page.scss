@@ -1,0 +1,44 @@
+// zonas.page.scss
+
+// Estilos para el contenedor principal para dar espacio
+.zonas-content {
+    --padding-top: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+}
+
+// Opcional: Centrar el spinner de carga
+ion-spinner {
+    display: block;
+    margin: 40px auto;
+}
+
+// Estilos para la barra de búsqueda
+.search-bar {
+    margin-bottom: 16px;
+}
+
+// Estilos para las tarjetas de cada zona
+.zona-card {
+    // Eliminamos los márgenes laterales, ion-col ya se encarga del espaciado.
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 16px; // Mantenemos el espacio inferior
+    width: 100%; // Hacemos que la tarjeta ocupe todo el ancho de la columna
+    --background: #2c2c2c;
+    color: #ffffff;
+}
+
+// Alinear el ícono y el título dentro de la tarjeta
+ion-card-header {
+    display: flex;
+    align-items: center;
+}
+
+// Estilos para el ícono dentro de la tarjeta
+ion-card-header ion-icon {
+    font-size: 24px;
+    margin-right: 12px; // Espacio entre el ícono y el texto
+    color: var(--ion-color-primary); // Usa el color primario de tu app
+}

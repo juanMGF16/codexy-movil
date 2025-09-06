@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Zonas de Inventario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="zonas-content">
+  <ion-searchbar placeholder="Buscar zona..." class="search-bar"></ion-searchbar>
+
+  @if (!cargando) {
+  <ion-grid>
+    <ion-row>
+      @for (zona of zonas; track zona) {
+      <ion-col size="12" size-md="6" size-lg="4" size-xl="3">
+        <ion-card button="true" [routerLink]="['/categorias', zona.id]" class="zona-card">
+          <ion-card-header>
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            <ion-card-title>{{ zona.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+  } @else {
+  <ion-spinner name="crescent"></ion-spinner>
+  }
+</ion-content>
