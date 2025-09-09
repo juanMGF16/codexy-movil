@@ -56,6 +56,6 @@ export class InicioOperativoPage {
   }
 
   goToItem(categoria: any) {
-    this.router.navigate(['/inicio-mouse', categoria.id], { state: { categoria } });
+    this.router.navigate(['/inicio-mouse', categoria.id, this.route.snapshot.paramMap.get('zonaId')], { state: { categoria } });
   }
 }

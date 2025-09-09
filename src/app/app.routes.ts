@@ -33,7 +33,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/inicio-operativo/inicio-operativo.page').then( m => m.InicioOperativoPage)
   },
   {
-    path: 'inicio-mouse/:id',
+    path: 'inicio-mouse/:id/:zonaId',
     loadComponent: () => import('./pages/inicio-mouse/inicio-mouse.page').then( m => m.InicioMousePage)
   },
   

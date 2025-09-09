@@ -18,22 +18,27 @@ export class InicioMousePage implements OnInit {
   categoria: any;
   items: any[] = [];
   cargando = true;
+  zonaId!: number;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     addIcons({ arrowBackOutline, timeOutline });
   }
 
   ngOnInit() {
+    // 👇 obtenemos zonaId desde la ruta
+    this.zonaId = Number(this.route.snapshot.paramMap.get('zonaId'));
+    // console.log('ZonaId recibido:', this.zonaId);
+
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state && nav.extras.state['categoria']) {
       this.categoria = nav.extras.state['categoria'];
       this.items = this.categoria.items;
-      // console.log(this.items);
     }
+
     this.cargando = false;
   }
 
   goBack() {
-    this.router.navigate(['/inicio-operativo', this.categoria.zonaId]);
+    this.router.navigate(['/inicio-operativo', this.zonaId]);
   }
 }
