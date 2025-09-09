@@ -28,5 +28,17 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
   },
+  {
+    path: 'inicio-operativo',
+    loadComponent: () => import('./pages/inicio-operativo/inicio-operativo.page').then( m => m.InicioOperativoPage)
+  },
+  {
+    path: 'inicio-mouse',
+    loadComponent: () => import('./pages/inicio-mouse/inicio-mouse.page').then( m => m.InicioMousePage)
+  },
+  
+
+
+
 
 ];

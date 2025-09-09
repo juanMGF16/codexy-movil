@@ -1,57 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, 
-  IonSearchbar, IonSpinner, IonCardHeader, IonCardTitle, 
-  IonGrid, IonRow, IonCol , IonCard, 
-} from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
-import { ZonaInventario, ZonasInventarioService } from 'src/app/services/zonas-inventario.service';
-
+import { Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline, lockClosedOutline, lockOpenOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
- imports: [
-  CommonModule,
-  FormsModule,
-  RouterModule,
-  // Ionic standalone components
-  IonHeader, IonToolbar, IonButtons, IonButton, IonIcon, IonTitle,
-  IonContent,
-  IonSearchbar,
-  IonGrid, IonRow, IonCol,
-  IonCard, IonCardHeader, IonCardTitle, 
-  IonSpinner,
-  
-]})
-export class HomePage implements OnInit {
+  imports: [IonicModule, CommonModule, FormsModule],
+})
+export class HomePage {
+  searchTerm: string = '';
 
-  zonas: ZonaInventario[] = [];
-  cargando = true;
-  characters: any[] = [];
-  loading: boolean = true;
-  constructor(private zonasService: ZonasInventarioService) {}
+  zonas = [
+    { nombre: '309-1', libre: true },   // ✅ primera desbloqueada
+    { nombre: '309-2', libre: false },
+    { nombre: '309-3', libre: false },
+    { nombre: '309-4', libre: false }
+  ];
 
-  ngOnInit() {
-    this.cargarZonas();
+  constructor(private router: Router) {
+    addIcons({ arrowBackOutline, lockClosedOutline, lockOpenOutline });
   }
 
-  cargarZonas() {
-    this.zonasService.getZonas().subscribe({
-      next: (data) => {
-        this.zonas = data;
-        this.cargando = false;
-        console.log('Zonas cargadas:', this.zonas);
-      },
-      error: (err) => {
-        console.error('Error al cargar zonas', err);
-        this.cargando = false;
-      }
-    });
+  goBack() {
+    this.router.navigate(['/login']);
   }
+goToOperativo(zona: any) {
+  console.log('Entrando a zona:', zona.nombre);
 
+  // 👉 Redirige a la página de inicio operativo
+  this.router.navigate(['/inicio-operativo'], {
+    queryParams: { zona: zona.nombre } // opcional, para saber desde qué zona viene
+  });
+}
+
+  filteredZonas() {
+    if (!this.searchTerm) return this.zonas;
+    return this.zonas.filter(z =>
+      z.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
 }

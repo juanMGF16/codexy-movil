@@ -1,33 +1,32 @@
-<ion-header>
-  <ion-toolbar color="dark">
-    <ion-buttons slot="start">
-      <ion-button fill="clear" routerLink="/home">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Zonas de Inventario</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="custom-bg" [fullscreen]="true">
+  <div class="wrap">
 
-<ion-content [fullscreen]="true" class="zonas-content">
-  <ion-searchbar placeholder="Buscar zona..." class="search-bar"></ion-searchbar>
+    <!-- Botón atrás -->
+    <ion-button class="back-button" fill="clear" (click)="goBack()">
+      <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+    </ion-button>
 
-  @if (!cargando) {
-  <ion-grid>
-    <ion-row>
-      @for (zona of zonas; track zona) {
-      <ion-col size="12" size-md="6" size-lg="4" size-xl="3">
-        <ion-card button="true" [routerLink]="['/categorias', zona.id]" class="zona-card">
-          <ion-card-header>
-            <ion-icon name="location-outline" slot="start"></ion-icon>
-            <ion-card-title>{{ zona.name }}</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      }
-    </ion-row>
-  </ion-grid>
-  } @else {
-  <ion-spinner name="crescent"></ion-spinner>
-  }
+    <!-- Icono superior -->
+    <div class="icon-circle">
+      <img src="../../../assets/images/heroicons_map-pin.png" alt="Ubicación" />
+    </div>
+
+    <!-- Título -->
+    <h1 class="title">ADSO</h1>
+
+    <!-- Barra de búsqueda -->
+    <ion-searchbar placeholder="Buscar..." [(ngModel)]="searchTerm"></ion-searchbar>
+
+   <div class="card-zona" 
+     *ngFor="let zona of filteredZonas(); let i = index" 
+     [ngClass]="{ 'libre': zona.libre, 'ocupada': !zona.libre }"
+     (click)="zona.libre && goToOperativo(zona)">  <!-- ✅ solo si está libre -->
+
+  <span class="label">{{ zona.nombre }}</span>
+  <div class="icon-circle-small">
+    <ion-icon [name]="zona.libre ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
+  </div>
+</div>
+
+  </div>
 </ion-content>

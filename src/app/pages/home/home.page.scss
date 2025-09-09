@@ -1,44 +1,124 @@
-// zonas.page.scss
-
-// Estilos para el contenedor principal para dar espacio
-.zonas-content {
-    --padding-top: 16px;
-    --padding-start: 16px;
-    --padding-end: 16px;
+/* Fondo */
+.custom-bg {
+  --background: #0b0f2c;
+  color: white;
 }
 
-// Opcional: Centrar el spinner de carga
-ion-spinner {
-    display: block;
-    margin: 40px auto;
+/* Contenedor */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  position: relative;
 }
 
-// Estilos para la barra de búsqueda
-.search-bar {
-    margin-bottom: 16px;
+/* Botón atrás */
+.back-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  --background: rgba(10, 15, 44, 0);
+  --color: #fff;
+  border: 2px solid #3b82f6;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
 }
 
-// Estilos para las tarjetas de cada zona
-.zona-card {
-    // Eliminamos los márgenes laterales, ion-col ya se encarga del espaciado.
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 16px; // Mantenemos el espacio inferior
-    width: 100%; // Hacemos que la tarjeta ocupe todo el ancho de la columna
-    --background: #2c2c2c;
-    color: #ffffff;
+/* Icono superior */
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto 20px;
+  background: radial-gradient(circle at top, #1e3a8a, #9233ea00);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
 }
 
-// Alinear el ícono y el título dentro de la tarjeta
-ion-card-header {
-    display: flex;
-    align-items: center;
+.icon-circle img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
 }
 
-// Estilos para el ícono dentro de la tarjeta
-ion-card-header ion-icon {
-    font-size: 24px;
-    margin-right: 12px; // Espacio entre el ícono y el texto
-    color: var(--ion-color-primary); // Usa el color primario de tu app
+/* Título */
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+}
+
+/* Searchbar */
+ion-searchbar {
+  width: 80%;
+  border-radius: 20px;
+  margin: 30px 0;
+  --background: transparent;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+ion-searchbar::part(container) {
+  background: linear-gradient(135deg, #1a2142, #0d1328);
+  border-radius: 50px;
+  color: white;
+}
+
+ion-searchbar::part(input) {
+  color: white;
+}
+
+ion-searchbar::part(icon) {
+  color: #3b82f6;
+}
+
+/* Tarjetas de zona */
+.card-zona {
+  width: 85%;
+  margin-top: 53px;
+  padding: 19px 20px;
+  margin: 10px 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #141b3a, #0b0f2c);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.card-zona:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+}
+
+/* Candado */
+.icon-circle-small {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+.icon-circle-small ion-icon {
+  font-size: 18px;
+  color: white;
+}
+
+/* Zona libre */
+.card-zona.libre {
+ 
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.8);
 }

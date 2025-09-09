@@ -1,0 +1,48 @@
+<ion-content class="custom-bg" [fullscreen]="true">
+  <div class="wrap">
+
+    <!-- Encabezado -->
+    <div class="header">
+      <ion-icon name="log-out-outline" class="icon-left"></ion-icon>
+      <h1 class="title">Inicio</h1>
+      <ion-icon name="cloud-upload-outline" class="icon-right upload-icon"></ion-icon>
+    </div>
+
+    <!-- Botones superiores -->
+    <div class="top-actions">
+      <div class="circle-btn">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </div>
+      <ion-button class="confirm-btn">Confirmar</ion-button>
+      <div class="circle-btn">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Lista de categorías -->
+    <div class="card-list">
+      <div class="card-item" *ngFor="let item of items" (click)="goToItem(item)">
+        <div class="card-left">
+          <span class="label">{{ item.nombre }}</span>
+          <span class="count">{{ item.contador }}</span>
+        </div>
+        <ion-icon name="document-text-outline" class="card-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Barra inferior -->
+    <div class="bottom-bar">
+      <div class="nav-item active">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item">
+        <ion-icon name="qr-code-outline"></ion-icon>
+      </div>
+      <div class="nav-item">
+        <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
