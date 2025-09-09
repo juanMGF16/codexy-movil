@@ -21,10 +21,10 @@
 
     <!-- Lista de categorías -->
     <div class="card-list">
-      <div class="card-item" *ngFor="let item of items" (click)="goToItem(item)">
+      <div class="card-item" *ngFor="let categoria of categorias" (click)="goToItem(categoria)">
         <div class="card-left">
-          <span class="label">{{ item.nombre }}</span>
-          <span class="count">{{ item.contador }}</span>
+          <span class="label">{{ categoria.name }}</span>
+          <span class="count">{{ categoria.contador }}</span>
         </div>
         <ion-icon name="document-text-outline" class="card-icon"></ion-icon>
       </div>

@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { 
   logOutOutline, 
   cloudUploadOutline, 
@@ -14,6 +14,7 @@ import {
   qrCodeOutline, 
   ellipsisHorizontalCircleOutline 
 } from 'ionicons/icons';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-inicio-operativo',
@@ -23,14 +24,15 @@ import {
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class InicioOperativoPage {
-  items = [
-    { nombre: 'Portátiles', contador: '0/8' },
-    { nombre: 'Monitores', contador: '0/7' },
-    { nombre: 'Cables HDMI', contador: '0/3' },
-    { nombre: 'Mouse Alámbricos', contador: '0/15' },
-  ];
 
-  constructor(private router: Router) {
+  categorias: any[] = [];
+  cargando = true;
+
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private categoryService: CategoryService
+  ) {
     addIcons({ 
       logOutOutline, cloudUploadOutline, personCircleOutline, 
       chatbubbleEllipsesOutline, documentTextOutline, 
@@ -38,10 +40,22 @@ export class InicioOperativoPage {
     });
   }
 
-  goToItem(item: any) {
-    if (item.nombre === 'Mouse Alámbricos') {
-      this.router.navigate(['/inicio-mouse']);
-    }
-  
+  ngOnInit() {
+    const zonaId = Number(this.route.snapshot.paramMap.get('zonaId')); // viene desde HomePage
+    this.categoryService.getItemsByCategory(zonaId).subscribe({
+      next: (data) => {
+        this.categorias = data;
+        this.cargando = false;
+        // console.log('Categorías cargadas:', this.categorias);
+      },
+      error: (err) => {
+        console.error('Error cargando categorías:', err);
+        this.cargando = false;
+      }
+    });
+  }
+
+  goToItem(categoria: any) {
+    this.router.navigate(['/inicio-mouse', categoria.id], { state: { categoria } });
   }
 }

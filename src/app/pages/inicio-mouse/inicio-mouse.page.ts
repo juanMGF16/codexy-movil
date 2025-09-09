@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline, timeOutline } from 'ionicons/icons';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-inicio-mouse',
@@ -13,19 +13,27 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-export class InicioMousePage {
-  dispositivos = [
-    { id: '00001', serial: '0000A', estado: 'Activo' },
-    { id: '00002', serial: '0000B', estado: 'Activo' },
-    { id: '00003', serial: '0000C', estado: 'Activo' },
-    { id: '00004', serial: '0000D', estado: 'Activo' },
-  ];
+export class InicioMousePage implements OnInit {
 
-  constructor(private router: Router) {
+  categoria: any;
+  items: any[] = [];
+  cargando = true;
+
+  constructor(private router: Router, private route: ActivatedRoute) {
     addIcons({ arrowBackOutline, timeOutline });
   }
 
+  ngOnInit() {
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras.state && nav.extras.state['categoria']) {
+      this.categoria = nav.extras.state['categoria'];
+      this.items = this.categoria.items;
+      // console.log(this.items);
+    }
+    this.cargando = false;
+  }
+
   goBack() {
-    this.router.navigate(['/inicio-operativo']);
+    this.router.navigate(['/inicio-operativo', this.categoria.zonaId]);
   }
 }

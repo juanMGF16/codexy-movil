@@ -29,11 +29,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
   },
   {
-    path: 'inicio-operativo',
+    path: 'inicio-operativo/:zonaId',
     loadComponent: () => import('./pages/inicio-operativo/inicio-operativo.page').then( m => m.InicioOperativoPage)
   },
   {
-    path: 'inicio-mouse',
+    path: 'inicio-mouse/:id',
     loadComponent: () => import('./pages/inicio-mouse/inicio-mouse.page').then( m => m.InicioMousePage)
   },
   

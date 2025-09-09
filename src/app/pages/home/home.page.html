@@ -19,12 +19,12 @@
 
    <div class="card-zona" 
      *ngFor="let zona of filteredZonas(); let i = index" 
-     [ngClass]="{ 'libre': zona.libre, 'ocupada': !zona.libre }"
-     (click)="zona.libre && goToOperativo(zona)">  <!-- ✅ solo si está libre -->
+     [ngClass]="{ }"
+     (click)="zona && goToOperativo(zona.id)">  
 
-  <span class="label">{{ zona.nombre }}</span>
+  <span class="label">{{ zona.name }}</span>
   <div class="icon-circle-small">
-    <ion-icon [name]="zona.libre ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
+    <ion-icon [name]="zona ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
   </div>
 </div>
 

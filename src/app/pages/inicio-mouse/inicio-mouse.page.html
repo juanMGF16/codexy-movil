@@ -12,18 +12,18 @@
     </div>
 
     <!-- Título -->
-    <h1 class="title">Mouse Alámbricos</h1>
-    <p class="subtitle">{{ dispositivos.length }}/15</p>
+    <h1 class="title">{{ categoria?.name }}</h1>
+    <p class="subtitle">Cantidad: {{ items.length }}</p>
 
     <!-- Lista de dispositivos -->
-    <div class="device-card" *ngFor="let item of dispositivos">
+    <div class="device-card" *ngFor="let item of items">
       <div class="device-left">
-        <span class="device-id">ID: {{ item.id }}</span>
-        <span class="device-serial">Serial: {{ item.serial }}</span>
+        <span class="device-id">Nombre: {{ item.name }}</span>
+        <span class="device-serial">Descripción: {{ item.description }}</span>
       </div>
 
       <div class="device-right">
-        <span class="status">{{ item.estado }}</span>
+        <span class="status">{{ item.status }}</span>
         <ion-icon name="time-outline"></ion-icon>
       </div>
     </div>

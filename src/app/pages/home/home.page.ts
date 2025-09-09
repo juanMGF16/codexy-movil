@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline, lockClosedOutline, lockOpenOutline } from 'ionicons/icons';
+import { ZonaInventario, ZonasInventarioService } from 'src/app/services/zonas-inventario.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,36 +15,45 @@ import { arrowBackOutline, lockClosedOutline, lockOpenOutline } from 'ionicons/i
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-export class HomePage {
+export class HomePage implements OnInit{
   searchTerm: string = '';
+  zonas: ZonaInventario[] = [];
+  cargando = true;
 
-  zonas = [
-    { nombre: '309-1', libre: true },   // ✅ primera desbloqueada
-    { nombre: '309-2', libre: false },
-    { nombre: '309-3', libre: false },
-    { nombre: '309-4', libre: false }
-  ];
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private zonasService: ZonasInventarioService, private authService: AuthService) {
     addIcons({ arrowBackOutline, lockClosedOutline, lockOpenOutline });
   }
-
+  async ngOnInit() {
+    const user = await this.authService.getUserFromToken();
+    if (user?.userId) {
+      this.cargarZonas(user.userId);  // 👈 pasar el id del token
+    }
+  }
   goBack() {
     this.router.navigate(['/login']);
   }
-goToOperativo(zona: any) {
-  console.log('Entrando a zona:', zona.nombre);
-
-  // 👉 Redirige a la página de inicio operativo
-  this.router.navigate(['/inicio-operativo'], {
-    queryParams: { zona: zona.nombre } // opcional, para saber desde qué zona viene
-  });
-}
+  goToOperativo(zonaId: number) {
+    this.router.navigate(['/inicio-operativo', zonaId]); // 👈 pasas id en la ruta
+  }
 
   filteredZonas() {
     if (!this.searchTerm) return this.zonas;
     return this.zonas.filter(z =>
-      z.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      z.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  cargarZonas(userId: number) {
+    this.zonasService.getZonas(userId).subscribe({
+      next: (data) => {
+        this.zonas = data;
+        this.cargando = false;
+        // console.log('Zonas cargadas:', this.zonas);
+      },
+      error: (err) => {
+        console.error('Error al cargar zonas', err);
+        this.cargando = false;
+      }
+    });
   }
 }

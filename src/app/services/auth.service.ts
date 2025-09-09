@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { IdleService } from './idle.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,18 @@ export class AuthService {
       })
     );
  }
+ async getUserFromToken() {
+  const token = await this.getAccessToken();
+  if (!token) return null;
 
+  const decoded: any = jwtDecode(token);
+  return {
+    userId: decoded['nameid'],    
+    personId: decoded['personId'],
+    username: decoded['unique_name'],
+    role: decoded['role']
+  };
+}
   async getAccessToken() {
     return await this.storage.get('access_token');
   }
