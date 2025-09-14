@@ -3,16 +3,14 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
+
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { 
-  logOutOutline, 
-  cloudUploadOutline, 
-  personCircleOutline, 
-  chatbubbleEllipsesOutline, 
-  documentTextOutline, 
-  homeOutline, 
-  qrCodeOutline, 
-  ellipsisHorizontalCircleOutline 
+  arrowBackOutline, cloudUploadOutline, personCircleOutline, 
+  chatbubbleEllipsesOutline, documentTextOutline, 
+  homeOutline, qrCodeOutline, ellipsisHorizontalCircleOutline,
+  personAddOutline, checkmarkOutline
 } from 'ionicons/icons';
 import { CategoryService } from 'src/app/services/category.service';
 
@@ -24,9 +22,19 @@ import { CategoryService } from 'src/app/services/category.service';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class InicioOperativoPage {
-
   categorias: any[] = [];
   cargando = true;
+
+  // 🔹 Modal de Invitación
+  isInviteOpen = false;
+  code = ['D', '8', 'K', '4'];
+
+  // 🔹 Modal de Observaciones
+  isObservacionesOpen = false;
+  observacionTexto: string = '';
+
+  // 🔹 Modal de Salida
+  isExitOpen: boolean = false;
 
   constructor(
     private router: Router, 
@@ -34,19 +42,19 @@ export class InicioOperativoPage {
     private categoryService: CategoryService
   ) {
     addIcons({ 
-      logOutOutline, cloudUploadOutline, personCircleOutline, 
+      cloudUploadOutline, personCircleOutline, 
       chatbubbleEllipsesOutline, documentTextOutline, 
-      homeOutline, qrCodeOutline, ellipsisHorizontalCircleOutline 
+      homeOutline, qrCodeOutline, ellipsisHorizontalCircleOutline,
+      personAddOutline, arrowBackOutline, checkmarkOutline
     });
   }
 
   ngOnInit() {
-    const zonaId = Number(this.route.snapshot.paramMap.get('zonaId')); // viene desde HomePage
+    const zonaId = Number(this.route.snapshot.paramMap.get('zonaId'));
     this.categoryService.getItemsByCategory(zonaId).subscribe({
       next: (data) => {
         this.categorias = data;
         this.cargando = false;
-        // console.log('Categorías cargadas:', this.categorias);
       },
       error: (err) => {
         console.error('Error cargando categorías:', err);
@@ -56,6 +64,31 @@ export class InicioOperativoPage {
   }
 
   goToItem(categoria: any) {
-    this.router.navigate(['/inicio-mouse', categoria.id, this.route.snapshot.paramMap.get('zonaId')], { state: { categoria } });
+    this.router.navigate(
+      ['/inicio-mouse', categoria.id, this.route.snapshot.paramMap.get('zonaId')],
+      { state: { categoria } }
+    );
+  }
+
+  // 🔹 Control Modal Invitación
+  openInviteModal() { this.isInviteOpen = true; }
+  closeInviteModal() { this.isInviteOpen = false; }
+
+  // 🔹 Control Modal Observaciones
+  openObservacionesModal() { this.isObservacionesOpen = true; }
+  closeObservacionesModal() { this.isObservacionesOpen = false; }
+
+  guardarObservacion() {
+    console.log("Observación guardada:", this.observacionTexto);
+    this.closeObservacionesModal();
+  }
+
+  // 🔹 Control Modal de Salida
+  openExitModal() { this.isExitOpen = true; }
+  closeExitModal() { this.isExitOpen = false; }
+
+  confirmarSalir() {
+    alert("⚠️ No puedes salir, el inventario no ha finalizado.");
+    this.closeExitModal();
   }
 }

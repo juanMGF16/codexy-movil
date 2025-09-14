@@ -1,23 +1,45 @@
 <ion-content class="custom-bg" [fullscreen]="true">
   <div class="wrap">
 
-    <!-- Encabezado -->
-    <div class="header">
-      <ion-icon name="log-out-outline" class="icon-left"></ion-icon>
-      <h1 class="title">Inicio</h1>
-      <ion-icon name="cloud-upload-outline" class="icon-right upload-icon"></ion-icon>
-    </div>
+<div class="header">
+  <ion-icon name="log-out-outline" class="icon-left" (click)="openExitModal()"></ion-icon>
+  <h1 class="title">Inicio</h1>
+  <ion-icon name="cloud-upload-outline" class="icon-right upload-icon"></ion-icon>
+</div>
 
-    <!-- Botones superiores -->
-    <div class="top-actions">
-      <div class="circle-btn">
-        <ion-icon name="person-circle-outline"></ion-icon>
+<ion-modal [isOpen]="isExitOpen" (didDismiss)="closeExitModal()" class="custom-modal">
+  <ng-template>
+    <div class="modal-card">
+      <div class="modal-icon">
+        <ion-icon name="log-out-outline"></ion-icon>
       </div>
-      <ion-button class="confirm-btn">Confirmar</ion-button>
-      <div class="circle-btn">
-        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+
+      <h1 class="modal-title">No puedes salir</h1>
+      <p class="modal-subtitle">El inventario aún no ha finalizado</p>
+
+      <div class="modal-actions">
+        <ion-button fill="clear" (click)="closeExitModal()" class="back-btn">
+          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" (click)="confirmarSalir()" class="ok-btn">
+          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
       </div>
     </div>
+  </ng-template>
+</ion-modal>
+
+
+<!-- Botones superiores -->
+<div class="top-actions">
+  <div class="circle-btn" (click)="openInviteModal()">
+    <ion-icon name="person-circle-outline"></ion-icon>
+  </div>
+  <ion-button class="confirm-btn">Confirmar</ion-button>
+  <div class="circle-btn" (click)="openObservacionesModal()">
+    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+  </div>
+</div>
 
     <!-- Lista de categorías -->
     <div class="card-list">
@@ -43,6 +65,55 @@
         <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
       </div>
     </div>
+
+<ion-modal [isOpen]="isInviteOpen" (didDismiss)="closeInviteModal()" class="custom-modal">
+  <ng-template>
+    <div class="modal-card">
+      <div class="modal-icon">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </div>
+      <span class="modal-subtitle">ADSO</span>
+      <h1>209-1</h1>
+      <p>Código de Invitación</p>
+      <div class="code-box">
+        <span *ngFor="let char of code">{{ char }}</span>
+      </div>
+      <ion-button fill="clear" (click)="closeInviteModal()" class="back-btn">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- 🔹 Modal Observaciones -->
+<ion-modal [isOpen]="isObservacionesOpen" (didDismiss)="closeObservacionesModal()" class="custom-modal">
+  <ng-template>
+    <div class="modal-card">
+      <div class="modal-icon">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </div>
+
+      <h1 class="modal-title">Observaciones</h1>
+      <p class="modal-subtitle">Inventario</p>
+
+      <ion-textarea
+        [(ngModel)]="observacionTexto"
+        placeholder="Escribe tus observaciones..."
+        class="observaciones-box"
+        autoGrow="true">
+      </ion-textarea>
+
+      <div class="modal-actions">
+        <ion-button fill="clear" (click)="closeObservacionesModal()" class="back-btn">
+          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" (click)="guardarObservacion()" class="ok-btn">
+          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>
 
   </div>
 </ion-content>
