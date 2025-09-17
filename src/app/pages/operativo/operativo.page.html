@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-content class="operativo-content" [fullscreen]="true">
   <!-- Botón atrás -->
   <ion-buttons slot="start" class="header-back">
@@ -46,5 +47,44 @@
     </button>
 
     <p class="hint">¿Tienes un Código? <a (click)="unirse()">Unirse</a></p>
+=======
+<div class="middle">
+    <div class="icon-container"> ... </div>
+    <h1 class="title">Operativo</h1>
+    <ion-list> ... </ion-list>
+    <ion-button> ... </ion-button>
+    <div class="hint"> ... </div>
+>>>>>>> origin/juanMG
   </div>
-</ion-content>
+<div class="middle">
+  <div class="icon-container">
+    <img src="../../../assets/images/3D_Inicio_OP 2.png" alt="Icono Operativo" />
+  </div>
+
+  <h1 class="title">Operativo</h1>
+
+  <ion-list class="ion-no-padding">
+    <ion-item lines="none" fill="outline" shape="round" class="ion-margin-bottom">
+      <ion-icon name="document-text-outline" slot="start" aria-hidden="true"></ion-icon>
+      <ion-select [(ngModel)]="tipoDoc" placeholder="Tipo de Documento" interface="popover">
+        <ion-select-option value="cc">Cédula de ciudadanía</ion-select-option>
+        <ion-select-option value="ce">Cédula de extranjería</ion-select-option>
+        <ion-select-option value="ti">Tarjeta de identidad</ion-select-option>
+        <ion-select-option value="pp">Pasaporte</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none" fill="outline" shape="round">
+      <ion-icon name="keypad-outline" slot="start" aria-hidden="true"></ion-icon>
+      <ion-input [(ngModel)]="numeroDoc" placeholder="Número de Documento" type="number"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button class="access-button ion-margin-top" expand="block" shape="round" (click)="acceder()">
+    Acceder
+  </ion-button>
+
+  <div class="hint ion-text-center">
+    ¿Tienes un Código? <a (click)="unirse()">Unirse</a>
+  </div>
+</div>
