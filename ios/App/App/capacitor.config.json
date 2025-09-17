@@ -1,0 +1,11 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Codexy",
+	"webDir": "www",
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin"
+	]
+}
