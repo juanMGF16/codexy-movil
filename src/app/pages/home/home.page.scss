@@ -1,10 +1,8 @@
-/* Fondo */
 .custom-bg {
   --background: #0b0f2c;
   color: white;
 }
 
-/* Contenedor */
 .wrap {
   display: flex;
   flex-direction: column;
@@ -13,7 +11,6 @@
   position: relative;
 }
 
-/* Botón atrás */
 .back-button {
   position: absolute;
   top: 16px;
@@ -25,7 +22,6 @@
   backdrop-filter: blur(4px);
 }
 
-/* Icono superior */
 .icon-circle {
   width: 120px;
   height: 120px;
@@ -41,10 +37,8 @@
 .icon-circle img {
   width: 70px;
   height: 70px;
-  object-fit: contain;
 }
 
-/* Título */
 .title {
   font-size: 22px;
   font-weight: bold;
@@ -53,35 +47,18 @@
   color: white;
 }
 
-/* Searchbar */
 ion-searchbar {
-  width: 80%;
-  border-radius: 20px;
-  margin: 30px 0;
+  width: 85%;
+  margin: 20px 0;
+  border-radius: 23px;
+  border: 2px solid #3b82f6;
   --background: transparent;
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 
-ion-searchbar::part(container) {
-  background: linear-gradient(135deg, #1a2142, #0d1328);
-  border-radius: 50px;
-  color: white;
-}
-
-ion-searchbar::part(input) {
-  color: white;
-}
-
-ion-searchbar::part(icon) {
-  color: #3b82f6;
-}
-
-/* Tarjetas de zona */
 .card-zona {
   width: 85%;
-  margin-top: 53px;
-  padding: 19px 20px;
   margin: 10px 0;
+  padding: 19px 20px;
   border-radius: 16px;
   background: linear-gradient(135deg, #141b3a, #0b0f2c);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -90,16 +67,13 @@ ion-searchbar::part(icon) {
   align-items: center;
   font-weight: 600;
   color: white;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
-.card-zona:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+.card-zona:active {
+  transform: scale(0.98);
 }
 
-/* Candado */
 .icon-circle-small {
   width: 34px;
   height: 34px;
@@ -114,11 +88,4 @@ ion-searchbar::part(icon) {
 .icon-circle-small ion-icon {
   font-size: 18px;
   color: white;
-}
-
-/* Zona libre */
-.card-zona.libre {
- 
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.8);
 }

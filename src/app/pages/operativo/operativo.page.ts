@@ -1,18 +1,47 @@
 import { Component } from '@angular/core';
-import { IonicModule, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { addIcons } from 'ionicons';
-import { arrowBackOutline, documentTextOutline, chevronDownOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
+import {
+  IonContent,
+  IonButtons,
+  IonButton,
+  IonIcon,
+  IonItem,
+  IonList,
+  IonSelect,
+  IonSelectOption,
+  IonInput,
+  AlertController
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  arrowBackOutline,
+  keypadOutline,
+  appsOutline,
+  documentTextOutline,
+  chevronDownOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-operativo',
   templateUrl: './operativo.page.html',
   styleUrls: ['./operativo.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonContent,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonItem,
+    IonList,
+    IonSelect,
+    IonSelectOption,
+    IonInput
+  ],
 })
 export class OperativoPage {
   tipoDoc?: string;
@@ -23,7 +52,14 @@ export class OperativoPage {
     private authService: AuthService,
     private alertCtrl: AlertController
   ) {
-    addIcons({ arrowBackOutline, documentTextOutline, chevronDownOutline });
+    // Registrar íconos usados en el template
+    addIcons({
+      keypadOutline,
+      arrowBackOutline,
+      appsOutline,
+      documentTextOutline,
+      chevronDownOutline
+    });
   }
 
   goBack() {
@@ -31,6 +67,8 @@ export class OperativoPage {
   }
 
   acceder() {
+    console.log('DEBUG >> TipoDoc:', this.tipoDoc, 'NumeroDoc:', this.numeroDoc);
+
     if (!this.tipoDoc || !this.numeroDoc) {
       this.showAlert('Datos incompletos', 'Debes seleccionar tipo y número de documento.');
       return;
@@ -38,7 +76,7 @@ export class OperativoPage {
 
     this.authService.loginOperativo(this.tipoDoc, this.numeroDoc).subscribe({
       next: () => {
-        this.router.navigate(['/home']); // 👈 o la página que corresponda
+        this.router.navigate(['/home']);
       },
       error: async (err) => {
         let msg = 'Ocurrió un error al iniciar sesión.';

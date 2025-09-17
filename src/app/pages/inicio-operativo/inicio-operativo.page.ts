@@ -3,15 +3,16 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
-
+import { ExportadorComponent } from 'src/app/components/exportador/exportador.component';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { 
   arrowBackOutline, cloudUploadOutline, personCircleOutline, 
   chatbubbleEllipsesOutline, documentTextOutline, 
   homeOutline, qrCodeOutline, ellipsisHorizontalCircleOutline,
-  personAddOutline, checkmarkOutline
+  personAddOutline, checkmarkOutline, logOutOutline, checkmarkDoneOutline, closeOutline
 } from 'ionicons/icons';
+
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
@@ -19,22 +20,20 @@ import { CategoryService } from 'src/app/services/category.service';
   templateUrl: './inicio-operativo.page.html',
   styleUrls: ['./inicio-operativo.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, ExportadorComponent]
 })
-export class InicioOperativoPage {
+export class InicioOperativoPage {  
   categorias: any[] = [];
   cargando = true;
 
-  // 🔹 Modal de Invitación
   isInviteOpen = false;
   code = ['D', '8', 'K', '4'];
 
-  // 🔹 Modal de Observaciones
   isObservacionesOpen = false;
   observacionTexto: string = '';
 
-  // 🔹 Modal de Salida
   isExitOpen: boolean = false;
+  isConfirmOpen: boolean = false;
 
   constructor(
     private router: Router, 
@@ -45,7 +44,7 @@ export class InicioOperativoPage {
       cloudUploadOutline, personCircleOutline, 
       chatbubbleEllipsesOutline, documentTextOutline, 
       homeOutline, qrCodeOutline, ellipsisHorizontalCircleOutline,
-      personAddOutline, arrowBackOutline, checkmarkOutline
+      personAddOutline, arrowBackOutline, checkmarkOutline, logOutOutline, checkmarkDoneOutline, closeOutline
     });
   }
 
@@ -70,11 +69,9 @@ export class InicioOperativoPage {
     );
   }
 
-  // 🔹 Control Modal Invitación
   openInviteModal() { this.isInviteOpen = true; }
   closeInviteModal() { this.isInviteOpen = false; }
 
-  // 🔹 Control Modal Observaciones
   openObservacionesModal() { this.isObservacionesOpen = true; }
   closeObservacionesModal() { this.isObservacionesOpen = false; }
 
@@ -83,12 +80,24 @@ export class InicioOperativoPage {
     this.closeObservacionesModal();
   }
 
-  // 🔹 Control Modal de Salida
   openExitModal() { this.isExitOpen = true; }
   closeExitModal() { this.isExitOpen = false; }
 
-  confirmarSalir() {
-    alert("⚠️ No puedes salir, el inventario no ha finalizado.");
-    this.closeExitModal();
+  openConfirmModal() { this.isConfirmOpen = true; }
+  closeConfirmModal() { this.isConfirmOpen = false; }
+
+  confirmarInventario() {
+    console.log("Inventario confirmado y notificado al encargado de zona");
+    this.closeConfirmModal();
   }
+  isExportOpen: boolean = false;
+
+openExportModal() {
+  this.isExportOpen = true;
+}
+
+closeExportModal() {
+  this.isExportOpen = false;
+}
+
 }
