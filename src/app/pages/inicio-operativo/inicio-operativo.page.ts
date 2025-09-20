@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { HttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
 import { ExportadorComponent } from 'src/app/components/exportador/exportador.component';
 
@@ -38,7 +40,8 @@ export class InicioOperativoPage {
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private http: HttpClient
   ) {
     addIcons({ 
       cloudUploadOutline, personCircleOutline, 
@@ -98,6 +101,25 @@ openExportModal() {
 
 closeExportModal() {
   this.isExportOpen = false;
+}
+async openQR() {
+  try {
+    await BarcodeScanner.requestPermissions();
+    const { barcodes } = await BarcodeScanner.scan();
+
+    if (barcodes.length > 0) {
+      const code = barcodes[0].rawValue;
+      console.log('Código leído:', code);
+
+      // 3. (Opcional) Enviar a tu API eso lo hace juan manuel
+      this.http.post('https://tu-api.com/qr', { code }).subscribe({
+        next: (res) => console.log('✅ Enviado OK:', res),
+        error: (err) => console.error('❌ Error al enviar:', err)
+      });
+    }
+  } catch (err) {
+    console.error('Error al escanear:', err);
+  }
 }
 
 }

@@ -26,7 +26,8 @@ export class HomePage implements OnInit{
   async ngOnInit() {
     const user = await this.authService.getUserFromToken();
     if (user?.userId) {
-      this.cargarZonas(user.userId);  // 👈 pasar el id del token
+      this.cargarZonas(user.userId);
+      console.log(this.cargarZonas);  // 👈 pasar el id del token
     }
   }
   goBack() {

@@ -9,11 +9,9 @@ import { IonContent } from "@ionic/angular/standalone";
   styleUrls: ['./welcome.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent],
-
 })
 export class WelcomePage implements OnInit, OnDestroy {
   currentScreen = 0;
-  fadeIn = false;
   timer: any;
 
   welcomeScreens = [
@@ -30,20 +28,16 @@ export class WelcomePage implements OnInit, OnDestroy {
   }
 
   startSequence() {
-    this.fadeIn = true;
     this.timer = setInterval(() => {
       if (this.currentScreen < this.welcomeScreens.length - 1) {
         this.currentScreen++;
-        this.fadeIn = false;
-
-        setTimeout(() => (this.fadeIn = true), 50);
       } else {
         clearInterval(this.timer);
         setTimeout(() => {
           this.navCtrl.navigateRoot('/login');
-        }, 1000);
+        }, 1200);
       }
-    }, 2000);
+    }, 2500); // cada 2.5 segundos cambia
   }
 
   ngOnDestroy() {

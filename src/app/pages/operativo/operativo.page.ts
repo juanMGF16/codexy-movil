@@ -13,6 +13,11 @@ import {
   IonSelect,
   IonSelectOption,
   IonInput,
+  IonHeader,
+  IonToolbar,
+  IonBackButton,
+  IonTitle,
+  IonLabel,
   AlertController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -22,6 +27,7 @@ import {
   appsOutline,
   documentTextOutline,
   chevronDownOutline
+  
 } from 'ionicons/icons';
 
 @Component({
@@ -40,19 +46,26 @@ import {
     IonList,
     IonSelect,
     IonSelectOption,
-    IonInput
+    IonInput,
+    IonHeader,
+    IonToolbar,
+    IonBackButton,
+    IonTitle,
+    IonLabel,
+    CommonModule,
+    FormsModule,
+    IonContent
   ],
 })
 export class OperativoPage {
   tipoDoc?: string;
   numeroDoc = '';
-
+  
   constructor(
     private router: Router,
     private authService: AuthService,
     private alertCtrl: AlertController
   ) {
-    // Registrar íconos usados en el template
     addIcons({
       keypadOutline,
       arrowBackOutline,
@@ -73,7 +86,7 @@ export class OperativoPage {
       this.showAlert('Datos incompletos', 'Debes seleccionar tipo y número de documento.');
       return;
     }
-
+  
     this.authService.loginOperativo(this.tipoDoc, this.numeroDoc).subscribe({
       next: () => {
         this.router.navigate(['/home']);
