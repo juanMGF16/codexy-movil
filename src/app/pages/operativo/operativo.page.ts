@@ -80,7 +80,7 @@ export class OperativoPage {
   }
 
   acceder() {
-    console.log('DEBUG >> TipoDoc:', this.tipoDoc, 'NumeroDoc:', this.numeroDoc);
+    // console.log('DEBUG >> TipoDoc:', this.tipoDoc, 'NumeroDoc:', this.numeroDoc);
 
     if (!this.tipoDoc || !this.numeroDoc) {
       this.showAlert('Datos incompletos', 'Debes seleccionar tipo y número de documento.');
