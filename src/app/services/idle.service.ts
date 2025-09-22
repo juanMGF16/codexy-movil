@@ -15,7 +15,7 @@ export class IdleService {
   private readonly warningTime = 30 * 1000;
 
   private logoutSubject = new Subject<void>();
-  logout$ = this.logoutSubject.asObservable(); // 👈 otros servicios pueden suscribirse
+  logout$ = this.logoutSubject.asObservable(); 
 
   constructor(
     private router: Router,
@@ -39,6 +39,9 @@ export class IdleService {
   }
 
   private async showWarning() {
+    if (this.router.url.includes('/login')) return;
+    if (this.router.url.includes('/operativo')) return;
+    if (this.router.url.includes('/verificador')) return; 
     if (this.currentAlert) return;
 
     const alert = await this.alertController.create({
@@ -67,6 +70,9 @@ export class IdleService {
   }
 
   private async forceLogout() {
+    if (this.router.url.includes('/login')) return;
+    if (this.router.url.includes('/operativo')) return;
+    if (this.router.url.includes('/verificador')) return;
     if (this.currentAlert) {
       try { await this.currentAlert.dismiss(); } catch {}
       this.currentAlert = null;
@@ -74,7 +80,13 @@ export class IdleService {
 
     // 🚨 avisar que toca cerrar sesión
     this.logoutSubject.next();
+    const alert = await this.alertController.create({
+        header: 'Sesión cerrada',
+        message: 'Tu sesión ha expirado por inactividad.',
+        buttons: ['OK']
+      });
 
+    await alert.present();
     this.router.navigate(['/login']);
   }
 

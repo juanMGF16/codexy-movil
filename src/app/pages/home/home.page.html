@@ -1,32 +1,27 @@
 <ion-content class="custom-bg" [fullscreen]="true">
   <div class="wrap">
-
-    <!-- Botón atrás -->
     <ion-button class="back-button" fill="clear" (click)="goBack()">
       <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
     </ion-button>
-
-    <!-- Icono superior -->
     <div class="icon-circle">
       <img src="../../../assets/images/heroicons_map-pin.png" alt="Ubicación" />
     </div>
-
-    <!-- Título -->
-    <h1 class="title">ADSO</h1>
-
-    <!-- Barra de búsqueda -->
-    <ion-searchbar placeholder="Buscar..." [(ngModel)]="searchTerm"></ion-searchbar>
-
-   <div class="card-zona" 
-     *ngFor="let zona of filteredZonas(); let i = index" 
-     [ngClass]="{ }"
-     (click)="zona && goToOperativo(zona.id)">  
-
-  <span class="label">{{ zona.name }}</span>
-  <div class="icon-circle-small">
-    <ion-icon [name]="zona ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
-  </div>
-</div>
+    <h1 class="title">Zonas Operativas</h1>
+    <ion-searchbar
+      placeholder="Buscar..."
+      [(ngModel)]="searchTerm"
+      debounce="300"
+    ></ion-searchbar>
+    <div 
+      class="card-zona" 
+      *ngFor="let zona of filteredZonas()" 
+      (click)="goToOperativo(zona.id)"
+    >
+      <span class="label">{{ zona.name }}</span>
+      <div class="icon-circle-small">
+        <ion-icon [name]="zona ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
+      </div>
+    </div>
 
   </div>
 </ion-content>

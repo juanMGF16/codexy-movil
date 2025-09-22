@@ -1,21 +1,13 @@
 <ion-content class="custom-bg" [fullscreen]="true">
   <div class="wrap">
-
-    <!-- Botón atrás -->
     <ion-button class="back-button" fill="clear" (click)="goBack()">
       <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
     </ion-button>
-
-    <!-- Icono superior -->
     <div class="icon-circle">
       <img src="../../../assets/images/Vector2.png" alt="Mouse" />
     </div>
-
-    <!-- Título -->
     <h1 class="title">{{ categoria?.name }}</h1>
     <p class="subtitle">Cantidad: {{ items.length }}</p>
-
-    <!-- Lista de dispositivos -->
     <div class="device-card" *ngFor="let item of items">
       <div class="device-left">
         <span class="device-id">Nombre: {{ item.name }}</span>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,25 +15,34 @@ import { AuthService } from 'src/app/services/auth.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-export class HomePage implements OnInit{
+export class HomePage {
   searchTerm: string = '';
   zonas: ZonaInventario[] = [];
   cargando = true;
 
-  constructor(private router: Router, private zonasService: ZonasInventarioService, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private zonasService: ZonasInventarioService,
+    private authService: AuthService,
+    private alertController: AlertController
+  ) {
     addIcons({ arrowBackOutline, lockClosedOutline, lockOpenOutline });
   }
-  async ngOnInit() {
+
+  // 👇 se ejecuta cada vez que la vista entra en pantalla
+  async ionViewWillEnter() {
     const user = await this.authService.getUserFromToken();
     if (user?.userId) {
-      this.cargarZonas(user.userId);  // 👈 pasar el id del token
+      this.cargarZonas(user.userId);
     }
   }
+
   goBack() {
     this.router.navigate(['/login']);
   }
+
   goToOperativo(zonaId: number) {
-    this.router.navigate(['/inicio-operativo', zonaId]); // 👈 pasas id en la ruta
+    this.router.navigate(['/inicio-operativo', zonaId]); 
   }
 
   filteredZonas() {
@@ -45,14 +54,38 @@ export class HomePage implements OnInit{
 
   cargarZonas(userId: number) {
     this.zonasService.getZonas(userId).subscribe({
-      next: (data) => {
+      next: async (data) => {
         this.zonas = data;
         this.cargando = false;
-        // console.log('Zonas cargadas:', this.zonas);
+
+        if (!this.zonas || this.zonas.length === 0) {
+          const alert = await this.alertController.create({
+            header: 'Aviso',
+            message: 'No tienes inventarios asignados en este momento.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        }
       },
-      error: (err) => {
+      error: async (err) => {
         console.error('Error al cargar zonas', err);
         this.cargando = false;
+
+        if (err.status === 404) {
+          const alert = await this.alertController.create({
+            header: 'Aviso',
+            message: 'No tienes inventarios asignados en este momento.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Ocurrió un problema al cargar las zonas.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        }
       }
     });
   }
