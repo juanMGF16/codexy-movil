@@ -14,7 +14,7 @@
 /* Botón atrás */
 .back-button {
   position: absolute;
-  top: 16px;
+   top: 23px;
   left: 16px;
   --background: rgba(10, 15, 44, 0);
   --color: #fff;
@@ -58,7 +58,6 @@
   margin-bottom: 30px;
 }
 
-/* Card estilo Figma */
 .device-card {
   width: 100%;
   max-width: 360px;
@@ -69,9 +68,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: inset 4px 0 #22c55e, /* franja lateral verde */
-              0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 4px 0 #444, 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
 }
+
+/* 🔹 estado leído */
+.device-card.leido {
+  background: #1e293b;
+  box-shadow: inset 4px 0 #22c55e, 0 0 20px rgba(34, 197, 94, 0.6);
+  transform: scale(1.02);
+}
+
+.icon-success {
+  color: #22c55e; /* verde */
+}
+.icon-pending {
+  color: #aaa; /* gris */
+}
+
 
 .device-left {
   display: flex;
@@ -85,6 +99,13 @@
   font-size: 13px;
   color: #aaa;
 }
+:host ::ng-deep .device-card.leido {
+  background: #1e293b !important; /* azul más claro */
+  box-shadow: inset 4px 0 #22c55e, /* franja verde lateral */
+              0 0 20px rgba(34, 197, 94, 0.6) !important;
+  transform: scale(1.02);
+
+}
 
 /* Estado estilo pill */
 .device-right {
@@ -92,6 +113,11 @@
   align-items: center;
   gap: 10px;
 }
+
+.device-right ion-icon {
+  font-size: 20px;
+}
+
 
 .status {
   background: #1e293b;
@@ -102,8 +128,49 @@
   font-weight: 600;
   border: 1px solid rgba(22, 163, 74, 0.5);
 }
+:host ::ng-deep ion-content.custom-bg {
+  --background: #0b0f2c !important;
+  color: white !important;
+}
+
+:host ::ng-deep .device-card.leido {
+  background: #1e293b !important;
+  box-shadow: inset 4px 0 #22c55e,
+              0 0 20px rgba(34, 197, 94, 0.6) !important;
+  transform: scale(1.02) !important;
+}
 
 .device-right ion-icon {
   font-size: 18px;
   color: white;
+}
+.custom-toast {
+  position: fixed;
+  bottom: 30px;          /* 👈 ahora va abajo */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 9999;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 2s forwards;
+}
+
+.custom-toast.success {
+  background: #22c55e;
+}
+.custom-toast.warning {
+  background: #f59e0b;
+}
+.custom-toast.tertiary {
+  background: #3b82f6;
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translate(-50%, 20px); }
+  10%  { opacity: 1; transform: translate(-50%, 0); }
+  90%  { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, 20px); }
 }

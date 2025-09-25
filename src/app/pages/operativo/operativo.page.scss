@@ -17,9 +17,10 @@
 
 .back-button {
   position: absolute;
-  top: max(16px, env(safe-area-inset-top)); /* respeta notch */
+  top: max(16px, env(safe-area-inset-top)); 
   left: 16px;
   z-index: 1000;
+  top: 60px;
 
   --border-radius: 50%;
   --background: rgba(10, 15, 44, 0.55);

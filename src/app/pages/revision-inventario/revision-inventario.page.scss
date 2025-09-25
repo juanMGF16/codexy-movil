@@ -14,7 +14,7 @@
 
 .back-button {
   position: absolute;
-  top: 65px;
+    top: 43px;
   left: 16px;
   --background: rgba(10, 15, 44, 0);
   --color: #fff;
@@ -124,3 +124,56 @@ ion-searchbar {
   transform: scale(0.98);
 }
 
+.card-list {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-item {
+  width: 100%;
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6),
+              0 0 15px rgba(59, 130, 246, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7),
+              0 0 20px rgba(59, 130, 246, 0.7);
+}
+
+.card-item:active {
+  transform: scale(0.98);
+}
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-left .label {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+.card-left .count {
+  font-size: 14px;
+  color: #a1a1aa;
+}
+
+ion-toggle {
+  --handle-background: #3b82f6;
+  --background: rgba(59, 130, 246, 0.3);
+}

@@ -1,11 +1,11 @@
 <ion-content class="custom-bg" [fullscreen]="true">
-  
   <div class="wrap">
 
-<div class="header">
-  <ion-icon name="log-out-outline" class="icon-left" (click)="openExitModal()"></ion-icon>
-  <h1 class="title">Inicio</h1>
-     <ion-icon name="cloud-upload-outline" class="icon-right upload-icon" (click)="openExportModal()"></ion-icon>
+    <!-- Header -->
+    <div class="header">
+      <ion-icon name="arrow-back-outline" class="icon-left" (click)="openExitModal()"></ion-icon>
+      <h1 class="title">Inicio</h1>
+      <ion-icon name="cloud-upload-outline" class="icon-right upload-icon" (click)="openExportModal()"></ion-icon>
     </div>
 
     <!-- 🔹 Modal de exportación -->
@@ -15,13 +15,9 @@
           <div class="modal-icon">
             <ion-icon name="cloud-upload-outline"></ion-icon>
           </div>
-
           <h1 class="modal-title">Exportar Inventario</h1>
           <p class="modal-subtitle">Selecciona el formato</p>
-
-          <!-- Componente de exportación usando categorías -->
           <app-exportador [data]="categorias" fileName="inventario"></app-exportador>
-
           <div class="modal-actions">
             <ion-button fill="clear" (click)="closeExportModal()" class="back-btn">
               <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
@@ -30,70 +26,75 @@
         </div>
       </ng-template>
     </ion-modal>
-<ion-modal [isOpen]="isExitOpen" (didDismiss)="closeExitModal()" class="custom-modal">
-  <ng-template>
-    <div class="modal-card">
-      <div class="modal-icon">
-        <ion-icon name="log-out-outline"></ion-icon>
+
+    <!-- 🔹 Modal salida bloqueada -->
+    <ion-modal [isOpen]="isExitOpen" (didDismiss)="closeExitModal()" class="custom-modal">
+      <ng-template>
+        <div class="modal-card">
+          <div class="modal-icon">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </div>
+          <h1 class="modal-title">No puedes salir</h1>
+          <p class="modal-subtitle">El inventario aún no ha finalizado</p>
+          <div class="modal-actions">
+            <ion-button fill="clear" (click)="closeExitModal()" class="back-btn">
+              <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Acciones arriba -->
+    <div class="top-actions">
+      <div class="circle-btn" (click)="openInviteModal()">
+        <ion-icon name="person-circle-outline"></ion-icon>
       </div>
-
-      <h1 class="modal-title">No puedes salir</h1>
-      <p class="modal-subtitle">El inventario aún no ha finalizado</p>
-
-      <div class="modal-actions">
-        <ion-button fill="clear" (click)="closeExitModal()" class="back-btn">
-          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-        </ion-button>
-  
-      </div>
-    </div>
-  </ng-template>
-</ion-modal>
-<div class="top-actions">
-  <div class="circle-btn" (click)="openInviteModal()">
-    <ion-icon name="person-circle-outline"></ion-icon>
-  </div>
-  
-  <ion-button class="confirm-btn" (click)="openConfirmModal()">Confirmar</ion-button>
-  <div class="circle-btn" (click)="openObservacionesModal()">
-    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-  </div>
-</div>
-
-
-<ion-modal [isOpen]="isConfirmOpen" (didDismiss)="closeConfirmModal()" class="custom-modal">
-  <ng-template>
-    <div class="confirm-card">
-      <div class="confirm-icon">
-        <ion-icon name="checkmark-done-outline"></ion-icon>
-      </div>
-
-      <h1 class="confirm-title">Inventario</h1>
-      <p class="confirm-subtitle">Entrada</p>
-
-      <h2 class="confirm-text">Confirmar Inventario</h2>
-      <p class="confirm-note">Se Notificará al Encargado de Zona</p>
-
-      <div class="confirm-actions">
-        <ion-button fill="clear" (click)="confirmarInventario()" class="ok-btn">
-          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" (click)="closeConfirmModal()" class="cancel-btn">
-          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-        </ion-button>
+      <ion-button class="confirm-btn" (click)="openConfirmModal()">Confirmar</ion-button>
+      <div class="circle-btn" (click)="openObservacionesModal()">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </div>
     </div>
-  </ng-template>
-</ion-modal>
+
+    <!-- 🔹 Modal Confirmar -->
+    <ion-modal [isOpen]="isConfirmOpen" (didDismiss)="closeConfirmModal()" class="custom-modal">
+      <ng-template>
+        <div class="confirm-card">
+          <div class="confirm-icon">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+          </div>
+          <h1 class="confirm-title">Inventario</h1>
+          <p class="confirm-subtitle">Entrada</p>
+          <h2 class="confirm-text">Confirmar Inventario</h2>
+          <p class="confirm-note">Se notificará al encargado de zona</p>
+          <div class="confirm-actions">
+            <ion-button fill="clear" (click)="confirmarInventario()" class="ok-btn">
+              <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" (click)="closeConfirmModal()" class="cancel-btn">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <!-- 🔹 Lista de categorías -->
     <div class="card-list">
       <div class="card-item" *ngFor="let categoria of categorias" (click)="goToItem(categoria)">
         <div class="card-left">
           <span class="label">{{ categoria.name }}</span>
-          <span class="count">{{ categoria.contador }}</span>
+          <span class="count">{{ categoria.items?.length || 0 }}</span>
         </div>
-        <ion-icon name="document-text-outline" class="card-icon"></ion-icon>
+        <ion-icon 
+          [name]="categoria.completa ? 'checkmark-circle-outline' : 'document-text-outline'" 
+          [color]="categoria.completa ? 'success' : 'light'" 
+          class="card-icon">
+        </ion-icon>
       </div>
     </div>
+
+    <!-- Bottom bar -->
     <div class="bottom-bar">
       <div class="nav-item active">
         <ion-icon name="home-outline"></ion-icon>
@@ -101,59 +102,80 @@
       </div>
       <div class="nav-item" (click)="openQR()">
         <ion-icon name="qr-code-outline"></ion-icon>
+        <span>Escanear</span>
       </div>
-
       <div class="nav-item">
         <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+        <span>Más</span>
       </div>
     </div>
 
-<ion-modal [isOpen]="isInviteOpen" (didDismiss)="closeInviteModal()" class="custom-modal">
+    <!-- 🔹 Modal Invitación -->
+    <ion-modal [isOpen]="isInviteOpen" (didDismiss)="closeInviteModal()" class="custom-modal">
+      <ng-template>
+        <div class="modal-card">
+          <div class="modal-icon">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+          <span class="modal-subtitle">ADSO</span>
+          <h1>209-1</h1>
+          <p>Código de Invitación</p>
+          <div class="code-box">
+            <span *ngFor="let char of code">{{ char }}</span>
+          </div>
+          <ion-button fill="clear" (click)="closeInviteModal()" class="back-btn">
+            <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ng-template>
+    </ion-modal>
+    <!-- 🔹 Modal Iniciar Inventario -->
+<ion-modal [isOpen]="isStartInventoryOpen" (didDismiss)="closeStartInventoryModal()" class="custom-modal">
   <ng-template>
     <div class="modal-card">
       <div class="modal-icon">
-        <ion-icon name="person-add-outline"></ion-icon>
+        <ion-icon name="qr-code-outline"></ion-icon>
       </div>
-      <span class="modal-subtitle">ADSO</span>
-      <h1>209-1</h1>
-      <p>Código de Invitación</p>
-      <div class="code-box">
-        <span *ngFor="let char of code">{{ char }}</span>
-      </div>
-      <ion-button fill="clear" (click)="closeInviteModal()" class="back-btn">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </div>
-  </ng-template>
-</ion-modal>
-<ion-modal [isOpen]="isObservacionesOpen" (didDismiss)="closeObservacionesModal()" class="custom-modal">
-  <ng-template>
-    <div class="modal-card">
-      <div class="modal-icon">
-        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-      </div>
-
-      <h1 class="modal-title">Observaciones</h1>
-      <p class="modal-subtitle">Inventario</p>
-
-      <ion-textarea
-        [(ngModel)]="observacionTexto"
-        placeholder="Escribe tus observaciones..."
-        class="observaciones-box"
-        autoGrow="true">
-      </ion-textarea>
-
+      <h1 class="modal-title">Iniciar Inventario</h1>
+      <p class="modal-subtitle">¿Deseas iniciar el proceso de inventario ahora?</p>
       <div class="modal-actions">
-        <ion-button fill="clear" (click)="closeObservacionesModal()" class="back-btn">
-          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+        <ion-button fill="clear" (click)="cancelStartInventory()" class="cancel-btn">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" (click)="guardarObservacion()" class="ok-btn">
+        <ion-button fill="clear" (click)="confirmStartInventory()" class="ok-btn">
           <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
         </ion-button>
       </div>
     </div>
   </ng-template>
 </ion-modal>
+
+    <!-- 🔹 Modal Observaciones -->
+    <ion-modal [isOpen]="isObservacionesOpen" (didDismiss)="closeObservacionesModal()" class="custom-modal">
+      <ng-template>
+        <div class="modal-card">
+          <div class="modal-icon">
+            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+          </div>
+          <h1 class="modal-title">Observaciones</h1>
+          <p class="modal-subtitle">Inventario</p>
+          <ion-textarea
+            [(ngModel)]="observacionTexto"
+            placeholder="Escribe tus observaciones..."
+            class="observaciones-box"
+            autoGrow="true">
+          </ion-textarea>
+          <div class="modal-actions">
+            <ion-button fill="clear" (click)="closeObservacionesModal()" class="back-btn">
+              <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" (click)="guardarObservacion()" class="ok-btn">
+              <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
 
   </div>
 </ion-content>

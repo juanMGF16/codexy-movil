@@ -1,22 +1,31 @@
 <ion-content class="custom-bg" [fullscreen]="true">
   <div class="wrap">
+
+    <!-- Botón atrás -->
     <ion-button class="back-button" fill="clear" (click)="goBack()">
       <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
     </ion-button>
+
+    <!-- Icono de categoría -->
     <div class="icon-circle">
       <img src="../../../assets/images/Vector2.png" alt="Mouse" />
     </div>
+
     <h1 class="title">{{ categoria?.name }}</h1>
     <p class="subtitle">Cantidad: {{ items.length }}</p>
-    <div class="device-card" *ngFor="let item of items">
+
+    <!-- Lista de items -->
+    <div class="device-card" *ngFor="let item of items" [class.leido]="item.leido">
       <div class="device-left">
         <span class="device-id">Nombre: {{ item.name }}</span>
         <span class="device-serial">Descripción: {{ item.description }}</span>
       </div>
-
       <div class="device-right">
-        <span class="status">{{ item.status }}</span>
-        <ion-icon name="time-outline"></ion-icon>
+        <ion-icon
+          [name]="item.leido ? 'checkmark-circle-outline' : 'time-outline'"
+          [class.icon-success]="item.leido"
+          [class.icon-pending]="!item.leido">
+        </ion-icon>
       </div>
     </div>
 
