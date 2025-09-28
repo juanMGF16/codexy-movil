@@ -36,7 +36,20 @@ export const routes: Routes = [
     path: 'inicio-mouse/:id/:zonaId',
     loadComponent: () => import('./pages/inicio-mouse/inicio-mouse.page').then( m => m.InicioMousePage)
   },
-  
+  {
+    path: 'verificador-operativo',
+    loadComponent: () => import('./pages/verificador-operativo/verificador-operativo.page').then( m => m.VerificadorOperativoPage)
+  },
+ {
+  path: 'revision-inventario/:id',
+  loadComponent: () => import('./pages/revision-inventario/revision-inventario.page').then(m => m.RevisionInventarioPage)
+},
+
+
+{
+  path: 'items/:zonaId',
+  loadComponent: () => import('./pages/items-page/items-page.page').then(m => m.ItemsPage)
+}
 
 
 
