@@ -1,0 +1,76 @@
+<!-- src/app/pages/scanner/scanner.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio-operativo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Escaneo de Items</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [class.loading]="isLoading">
+  <!-- Botón de escaneo -->
+  <ion-button
+    expand="block"
+    color="secondary"
+    (click)="startScan()"
+    class="scan-btn ion-margin-top"
+  >
+    <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+    ESCANEAR CÓDIGO
+  </ion-button>
+
+  <!-- Código escaneado -->
+  <div *ngIf="scannedCode" class="code-display ion-margin-top">
+    <h3>Código escaneado:</h3>
+    <p class="code-text">{{ scannedCode }}</p>
+  </div>
+
+  <!-- Selección de estado -->
+  <div *ngIf="scannedCode" class="state-selector ion-margin-top">
+    <h3>Selecciona el estado del item</h3>
+    <ion-list>
+      <ion-radio-group [(ngModel)]="selectedStateId">
+        <ion-item
+          *ngFor="let state of stateItems"
+          [class.selected]="selectedStateId === state.id"
+        >
+          <ion-radio [value]="state.id" slot="start"></ion-radio>
+          <ion-label>
+            <h4>{{ state.name }}</h4>
+            <p>{{ state.description }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </div>
+
+  <!-- Botón enviar -->
+  <ion-button
+    expand="block"
+    color="success"
+    (click)="sendScan()"
+    [disabled]="!scannedCode || !selectedStateId"
+    class="send-btn ion-margin-top"
+    [class.disabled]="!scannedCode || !selectedStateId"
+  >
+    <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+    ENVIAR ESCANEO
+  </ion-button>
+
+  <!-- Resultado -->
+  <div *ngIf="scanResult" class="result-card ion-margin-top">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Resultado</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Status:</strong> {{ scanResult.status }}</p>
+        <p><strong>Mensaje:</strong> {{ scanResult.message }}</p>
+        <p *ngIf="scanResult.itemId">
+          <strong>ID:</strong> {{ scanResult.itemId }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -2,8 +2,15 @@
 	"appId": "io.ionic.starter",
 	"appName": "Codexy",
 	"webDir": "www",
+	"server": {
+		"cleartext": true,
+		"androidScheme": "http",
+		"hostname": "192.168.18.133"
+	},
 	"packageClassList": [
+		"BarcodeScannerPlugin",
 		"AppPlugin",
+		"CAPCameraPlugin",
 		"HapticsPlugin",
 		"KeyboardPlugin",
 		"StatusBarPlugin"
