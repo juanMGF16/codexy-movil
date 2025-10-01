@@ -1,13 +1,49 @@
-// src/app/pages/scanner/scanner.page.ts
-import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController, LoadingController, IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+// // src/app/pages/scanner/scanner.page.ts
+// import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { AlertController, ModalController, IonicModule } from '@ionic/angular';
+// import { CommonModule } from '@angular/common';
+// import { FormsModule } from '@angular/forms';
+// import { StateSelectionModalComponent } from '../state-selection-modal/state-selection-modal.component';
+// import { ScanFacade } from 'src/app/Business/scan-facade';
+
+// @Component({
+//   selector: 'app-scanner',
+//   templateUrl: './scanner.page.html',
+//   styleUrls: ['./scanner.page.scss'],
+//   standalone: true,
+//   imports: [IonicModule, CommonModule, FormsModule]
+// })
+// export class ScannerPage {
+//   constructor(
+//     private scanFacade: ScanFacade,
+//     private modalCtrl: ModalController
+//   ) {}
+
+//   async ionViewDidEnter() {
+//     await this.scanFacade.start();
+//     this.scanFacade.onResult(async (result) => {
+//       await this.scanFacade.pause();
+//       const modal = await this.modalCtrl.create({
+//         component: StateSelectionModalComponent,
+//         componentProps: { code: result.raw }
+//       });
+//       modal.onDidDismiss().then(() => this.scanFacade.resume());
+//       await modal.present();
+//     });
+//   }
+
+//   ionViewWillLeave() {
+//     this.scanFacade.stop();
+//   }
+// }
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { AlertController, ModalController, IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ScanResponseDto } from 'src/app/Interfaces/scan-response.model';
-import { STATE_ITEMS, StateItem } from 'src/app/Interfaces/state-item.model';
+import jsQR from 'jsqr';
 import { InventoryService } from 'src/app/services/inventary.service';
+import { StateSelectionModalComponent } from '../state-selection-modal/state-selection-modal.component';
 
 @Component({
   selector: 'app-scanner',
@@ -16,133 +52,121 @@ import { InventoryService } from 'src/app/services/inventary.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class ScannerPage implements OnInit {
+export class ScannerPage implements OnInit, OnDestroy {
+  @ViewChild('video', { static: false }) video!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas', { static: false }) canvas!: ElementRef<HTMLCanvasElement>;
 
-  scannedCode: string | null = null;
-  selectedStateId: number | null = null;
-  scanResult: ScanResponseDto | null = null;
-  stateItems: StateItem[] = STATE_ITEMS;
-  inventaryId: number | null = null;
-  isLoading = false; // Para bloquear UI durante envío
+  private stream: MediaStream | null = null;
+  private scanning = false;
 
   constructor(
-    private router: Router,
-    private inventaryService: InventoryService,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private modalController: ModalController,
+    private inventoryService: InventoryService
   ) {}
 
-  ngOnInit() {
-    this.inventaryId = this.inventaryService.getInventaryId();
-    if (!this.inventaryId) {
-      this.showError('No se ha iniciado un inventario.');
-      this.router.navigate(['/inicio-operativo']);
-    }
+  async ngOnInit() {
+    await this.startScanner();
   }
 
-  async startScan() {
+  ngOnDestroy() {
+    this.stopScanner();
+  }
+
+  private async startScanner() {
     try {
-      const isSupported = await BarcodeScanner.isSupported();
-      if (!isSupported) {
-        this.showError('Escaneo no soportado en este dispositivo.');
-        return;
-      }
-
-      const permissions = await BarcodeScanner.requestPermissions();
-      if (permissions.camera !== 'granted') {
-        this.showError('Permiso de cámara denegado.');
-        return;
-      }
-
-      const { barcodes } = await BarcodeScanner.scan();
-
-      if (barcodes.length > 0) {
-        this.scannedCode = barcodes[0].rawValue;
-        this.selectedStateId = null;
-        this.scanResult = null;
-      }
-
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
+      });
+      this.video.nativeElement.srcObject = this.stream;
+      this.video.nativeElement.setAttribute('playsinline', 'true');
+      await this.video.nativeElement.play();
+      this.scanning = true;
+      requestAnimationFrame(() => this.scanLoop());
     } catch (err) {
-      console.error('Error al escanear:', err);
+      console.error('Error de cámara:', err);
       this.showError('No se pudo acceder a la cámara.');
     }
   }
 
-  async sendScan() {
-  if (!this.scannedCode || !this.selectedStateId || !this.inventaryId) {
-    this.showError('Completa todos los campos.');
-    return;
+  private scanLoop() {
+    if (!this.scanning) return;
+
+    const video = this.video.nativeElement;
+    const canvas = this.canvas.nativeElement;
+    const ctx = canvas.getContext('2d');
+
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx!.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = ctx!.getImageData(0, 0, canvas.width, canvas.height);
+      const qr = jsQR(imageData.data, imageData.width, imageData.height);
+
+      if (qr) {
+        this.handleScanResult(qr.data);
+        return; // detener el loop hasta que cierre modal
+      }
+    }
+
+    requestAnimationFrame(() => this.scanLoop());
   }
 
+  // private async handleScanResult(rawCode: string) {
+  //   this.scanning = false;
+  //   const cleanCode = rawCode.replace(/^Code:/, '').trim();
 
-  let cleanCode = this.scannedCode;
-  if (cleanCode.startsWith('Code:')) {
-    cleanCode = cleanCode.substring(5); 
-  }
+  //   const modal = await this.modalController.create({
+  //     component: StateSelectionModalComponent,
+  //     componentProps: {
+  //       code: cleanCode,
+  //       inventaryId: this.inventoryService.getInventaryId()!
+  //     }
+  //   });
 
-  this.isLoading = true;
+  //   modal.onDidDismiss().then(() => {
+  //     // 🔄 reanudar escaneo tras cerrar modal
+  //     this.scanning = true;
+  //     requestAnimationFrame(() => this.scanLoop());
+  //   });
 
-  const request = {
-    inventaryId: this.inventaryId,
-    code: cleanCode,
-    stateItemId: this.selectedStateId
-  };
+  //   await modal.present();
+  // }
+private async handleScanResult(rawCode: string) {
+  this.scanning = false;
+  const cleanCode = rawCode.replace(/^Code:/, '').trim();
 
-  this.inventaryService.scan(request).subscribe({
-    next: (response) => {
-      this.isLoading = false;
-      this.scanResult = response;
-      this.showScanFeedback(response);
-    },
-    error: async (err) => {
-      this.isLoading = false;
-      console.error('Error en API:', err);
-      this.showError('Error al enviar el escaneo.');
+  const modal = await this.modalController.create({
+    component: StateSelectionModalComponent,
+    componentProps: {
+      code: cleanCode // 🔹 aquí pasa al modal el valor de prueba
     }
   });
+
+  modal.onDidDismiss().then(() => {
+    // 🔄 reanudar escaneo tras cerrar modal
+    this.scanning = true;
+    requestAnimationFrame(() => this.scanLoop());
+  });
+
+  await modal.present();
 }
 
-  showScanFeedback(response: ScanResponseDto) {
-    let message = response.message || 'Operación completada.';
-    let header = 'Resultado';
-
-    switch (response.status) {
-      case 'Correct':
-        header = '✅ Correcto';
-        break;
-      case 'WrongZone':
-        header = '⚠️ Zona incorrecta';
-        break;
-      case 'NotFound':
-        header = '❌ No encontrado';
-        break;
-      case 'Duplicate':
-        header = '🔁 Duplicado';
-        break;
+  private stopScanner() {
+    this.scanning = false;
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
     }
-
-    this.presentAlert(header, message);
   }
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
-  async showError(message: string) {
+  private async showError(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
       message,
       buttons: ['OK']
     });
     await alert.present();
-  }
-
-  goBack() {
-    this.router.navigate(['/inicio-operativo']);
   }
 }

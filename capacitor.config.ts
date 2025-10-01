@@ -6,9 +6,9 @@ const config: CapacitorConfig = {
   webDir: 'www',
   server: {
     cleartext: true, // permite http://
-    androidScheme: 'http',
+    androidScheme: 'https',
     // hostname: '192.168.1.5', 
-    hostname: '192.168.18.133',
+    hostname: 'localhost',
   }
 };
 

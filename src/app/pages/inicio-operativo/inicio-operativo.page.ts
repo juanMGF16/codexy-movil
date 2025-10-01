@@ -31,6 +31,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { InventoryService } from 'src/app/services/inventary.service';
 import { StartInventoryRequestDto } from 'src/app/Interfaces/start-inventory-request.model';
 
+
 // Modelos
 
 
@@ -236,5 +237,8 @@ export class InicioOperativoPage implements OnInit {
   confirmarInventario() {
     console.log('Inventario confirmado y notificado al encargado de zona');
     this.closeConfirmModal();
+  }
+  async openScanner(){
+    this.router.navigate(['/qr-scanner']);
   }
 }

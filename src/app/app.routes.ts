@@ -73,4 +73,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/scanner/scanner.page').then((m) => m.ScannerPage),
   },
+  {
+    path: 'qr-scanner',
+    loadComponent: () =>
+      import('./qr-scanner-jsqr/qr-scanner-jsqr.component').then(
+        (m) => m.QrScannerJsqrComponent
+      ),
+  }
 ];

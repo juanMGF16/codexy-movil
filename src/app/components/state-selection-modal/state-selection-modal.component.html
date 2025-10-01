@@ -1,0 +1,56 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Estado del item: {{ code }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-radio-group [(ngModel)]="selectedStateId">
+    <ion-item
+      *ngFor="let state of stateItems"
+      [class.selected]="selectedStateId === state.id"
+    >
+      <ion-radio [value]="state.id" slot="start"></ion-radio>
+      <ion-label>
+        <h4>{{ state.name }}</h4>
+        <p>{{ state.description }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-radio-group>
+
+  <ion-button
+    expand="block"
+    color="success"
+    (click)="confirm()"
+    [disabled]="!selectedStateId"
+    class="ion-margin-top"
+  >
+    <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+    Confirmar Estado
+  </ion-button>
+</ion-content> -->
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Prueba de Escaneo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>📦 Código detectado:</h2>
+  <ion-card>
+    <ion-card-content>
+      <strong>{{ code }}</strong>
+    </ion-card-content>
+  </ion-card>
+  <p>
+    Aquí luego puedes poner la lógica de selección de estado del ítem.
+  </p>
+</ion-content>

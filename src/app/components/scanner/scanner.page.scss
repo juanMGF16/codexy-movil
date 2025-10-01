@@ -1,16 +1,66 @@
-.center-content {
+// .scanner-container {
+//   position: relative;
+//   width: 100%;
+//   height: 60vh;
+//   background: #000;
+//   overflow: hidden;
+// }
+
+// #video {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// .overlay {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   pointer-events: none;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .scan-line {
+//   width: 80%;
+//   height: 3px;
+//   background: rgba(0, 255, 0, 0.7);
+//   animation: scan 2s infinite linear;
+// }
+
+// @keyframes scan {
+//   0% { transform: translateY(-45%); }
+//   100% { transform: translateY(45%); }
+// }
+
+// .help-text {
+//   text-align: center;
+//   color: #666;
+//   font-size: 14px;
+// }
+
+.scanner-container {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.scanner-hint {
+  display: block;
   text-align: center;
-  padding: 40px 20px;
-}
-
-.scan-icon {
-  font-size: 64px;
-  color: #007bff;
-  margin-bottom: 16px;
-}
-
-.scan-btn {
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-top: 16px;
+  font-size: 1.2rem;
 }

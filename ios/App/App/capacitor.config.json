@@ -5,7 +5,7 @@
 	"server": {
 		"cleartext": true,
 		"androidScheme": "http",
-		"hostname": "192.168.18.133"
+		"hostname": "172.30.6.57"
 	},
 	"packageClassList": [
 		"BarcodeScannerPlugin",
